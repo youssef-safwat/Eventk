@@ -6,9 +6,7 @@ A modern web application built with ASP.NET Core, featuring JWT authentication, 
 
 - [Prerequisites](#prerequisites)
 - [Repository Structure](#repository-structure)
-- [Setup Options](#setup-options)
-  - [Option 1: Running Pre-built Executables](#option-1-running-pre-built-executables)
-  - [Option 2: Building from Source Code](#option-2-building-from-source-code)
+- [Building from Source Code](#option-2-building-from-source-code)
 - [Configuration](#configuration)
 - [Running the Application](#running-the-application)
 - [Troubleshooting](#troubleshooting)
