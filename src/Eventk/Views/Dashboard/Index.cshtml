@@ -1,0 +1,159 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Entites
+@using Microsoft.EntityFrameworkCore
+@inject UserManager<ApplicationUser> UserManager
+@inject ApplicationDbContext Context
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_DashboardLayout";
+
+    // For Organization Admin, get the organization data
+    Organization? organization = null;
+    if (User.IsInRole("OrganizationAdmin"))
+    {
+        var user = await UserManager.GetUserAsync(User);
+        organization = await Context.Organization.FirstOrDefaultAsync(o => o.UserId == user.Id);
+    }
+    
+    bool isNewOrganization = organization != null && 
+                            (string.IsNullOrEmpty(organization.Name) || 
+                             string.IsNullOrEmpty(organization.Description));
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Dashboard</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+
+    @if (User.IsInRole("OrganizationAdmin") && isNewOrganization)
+    {
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Welcome to your organization dashboard!</h4>
+            <p>It looks like your organization profile is incomplete. Please complete your profile to get started.</p>
+            <hr>
+            <p class="mb-0">
+                <a asp-controller="OrganizationDashboard" asp-action="Edit" class="btn btn-primary">Complete Your Profile</a>
+            </p>
+        </div>
+        <!-- Hide dashboard cards for incomplete profile -->
+    }
+    else
+    {
+        <!-- Existing dashboard cards for Events, Organizations, Users, Reports -->
+        <div class="row">
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-primary text-white mb-4">
+                    <div class="card-body">Events</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" asp-controller="EventsDashboard" asp-action="Index">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-success text-white mb-4">
+                    <div class="card-body">Organizations</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" asp-controller="OrganizationsDashboard" asp-action="Index">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-warning text-white mb-4">
+                    <div class="card-body">Users</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" asp-controller="Users" asp-action="Index">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-danger text-white mb-4">
+                    <div class="card-body">Reports</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" asp-controller="Reports" asp-action="Index">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (User.IsInRole("SuperAdmin"))
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Super Admin Actions
+                    </div>
+                    <div class="card-body">
+                        <a asp-controller="Users" asp-action="Index" class="btn btn-primary">Manage Users</a>
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-success">Create Organization Admin</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (User.IsInRole("OrganizationAdmin") && !isNewOrganization)
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Organization Admin Actions
+                    </div>
+                    <div class="card-body">
+                        <a asp-controller="EventsDashboard" asp-action="Index" class="btn btn-primary">Manage Events</a>
+                        <a asp-controller="OrganizationDashboard" asp-action="Edit" class="btn btn-success">Edit Organization</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-building me-1"></i>
+                        Organization Details
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                @if ((organization.Logo) is not null)
+                                {
+                                    <img src="@organization.Logo" alt="Organization Logo" class="img-fluid mb-3" />
+                                }
+                                else
+                                {
+                                    <div class="text-center p-4 bg-light mb-3">
+                                        <i class="fas fa-building fa-4x text-secondary"></i>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-md-9">
+                                <h3>@organization.Name</h3>
+                                <p>@organization.Description</p>
+                                <p>Followers: @organization.FollowersCount</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Any dashboard-specific JavaScript can go here
+        });
+    </script>
+}

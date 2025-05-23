@@ -1,0 +1,16 @@
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\bin\Release\net9.0\Entites.deps.json
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\bin\Release\net9.0\Entites.runtimeconfig.json
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\bin\Release\net9.0\Entites.dll
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\bin\Release\net9.0\Entites.pdb
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\Entites.csproj.AssemblyReference.cache
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\Entites.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\Entites.AssemblyInfoInputs.cache
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\Entites.AssemblyInfo.cs
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\Entites.csproj.CoreCompileInputs.cache
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\EFCoreSqlServerNetTopologySuite.cs
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\Entites.sourcelink.json
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\Entites.dll
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\refint\Entites.dll
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\Entites.pdb
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\Entites.genruntimeconfig.cache
+C:\Users\yoyos\source\repos\EventkPublish\src\Entites\obj\Release\net9.0\ref\Entites.dll

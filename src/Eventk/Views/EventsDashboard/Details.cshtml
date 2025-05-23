@@ -1,0 +1,127 @@
+@model ServiceContracts.DTOs.Dashboard.EventDashboardResponse
+
+@{
+    ViewData["Title"] = "Event Details";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Event Details</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-controller="EventsDashboard" asp-action="Index">Events</a></li>
+        <li class="breadcrumb-item active">Details</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fas fa-calendar-alt me-1"></i>
+                    Event Information
+                </div>
+                <div>
+                    @if (User.IsInRole("OrganizationAdmin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.EventId" class="btn btn-primary btn-sm">
+                            <i class="fas fa-edit me-1"></i> Edit
+                        </a>
+                    }
+                    <a asp-action="Delete" asp-route-id="@Model.EventId" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash me-1"></i> Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>@Model.EventName</h3>
+                    <p class="text-muted">
+                        <i class="fas fa-map-marker-alt me-1"></i> @Model.Location
+                    </p>
+                    <p class="text-muted">
+                        <i class="fas fa-calendar me-1"></i> @Model.StartDate.ToString("yyyy-MM-dd HH:mm") - @Model.EndDate.ToString("yyyy-MM-dd HH:mm")
+                    </p>
+                    <p class="text-muted">
+                        <i class="fas fa-building me-1"></i> @Model.OrganizationName
+                    </p>
+                    <p class="text-muted">
+                        <i class="fas fa-heart me-1"></i> @Model.InterestedCount interested people
+                    </p>
+                    <hr />
+                    <h5>Description</h5>
+                    <p>@Model.Description</p>
+                    
+                    @if (Model.Categories.Any())
+                    {
+                        <h5>Categories</h5>
+                        <div>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <span class="badge bg-primary me-1">@category</span>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="col-md-4">
+                    @if (Model.EventPicture is not null)
+                    {
+                        <img src="@Model.EventPicture" class="img-fluid rounded" alt="@Model.EventName" />
+                    }
+                    else
+                    {
+                        <div class="text-center p-4 bg-light rounded">
+                            <i class="fas fa-image fa-4x text-muted"></i>
+                            <p class="mt-2">No image available</p>
+                        </div>
+                    }
+                    
+                    <div class="mt-3">
+                        <h5>Location</h5>
+                        <div id="map" style="height: 200px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Include Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=<YOUR-API>"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Extract coordinates from location string if available
+            let lat = 30.0444; // Default latitude
+            let lng = 31.2357; // Default longitude
+            
+            const locationStr = "@Model.Location";
+            if (locationStr && locationStr !== "No location") {
+                // Try to parse coordinates from the location string
+                // Format is expected to be "(longitude, latitude)"
+                const coordsMatch = locationStr.match(/\(([^,]+),\s*([^)]+)\)/);
+                if (coordsMatch && coordsMatch.length === 3) {
+                    lng = parseFloat(coordsMatch[1]);
+                    lat = parseFloat(coordsMatch[2]);
+                }
+            }
+            
+            // Initialize the map
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: lat, lng: lng },
+                zoom: 15,
+                mapTypeControl: false,
+                streetViewControl: false
+            });
+            
+            // Add a marker for the event location
+            new google.maps.Marker({
+                position: { lat: lat, lng: lng },
+                map: map,
+                title: "@Model.EventName"
+            });
+        });
+    </script>
+}
