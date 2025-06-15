@@ -295,7 +295,7 @@ Once running, open your web browser and navigate to:
 
 If you want to access the live hosted API without running locally:
 - **Dashboard**: `http://eventk.runasp.net/`
-- **Hosted API Documentation**: `http://eventk.runasp.net/swagger/index.html`
+- **Hosted API Documentation and dashboard**: `http://eventk.runasp.net/swagger/index.html`
 
 The application will display startup information in the console, including the exact URLs.
 
